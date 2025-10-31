@@ -1,16 +1,20 @@
 package com.example.studiondonationstokvel;
 
+import android.content.res.ColorStateList;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.ProgressBar;
 import android.widget.TextView;
+import androidx.core.content.ContextCompat;
+import androidx.core.widget.ImageViewCompat;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
+import com.google.android.material.progressindicator.LinearProgressIndicator;
 import java.util.List;
+import java.util.Locale;
 
 public class StudentAdapter extends RecyclerView.Adapter<StudentAdapter.StudentViewHolder> {
     private List<Student> students;
@@ -37,7 +41,20 @@ public class StudentAdapter extends RecyclerView.Adapter<StudentAdapter.StudentV
         Student student = students.get(position);
         holder.tvName.setText(student.getName() + " " + student.getSurname());
         holder.tvInstitution.setText(student.getInstitution());
-        holder.progressBar.setProgress((int) student.getProgress());
+
+        int progressValue = (int) Math.round(student.getProgress());
+        holder.progressIndicator.setProgressCompat(progressValue, false);
+        holder.tvProgressLabel.setText(String.format(Locale.getDefault(), "%d%% funded", progressValue));
+
+        int tintColor;
+        if (progressValue >= 80) {
+            tintColor = ContextCompat.getColor(holder.itemView.getContext(), R.color.mint_400);
+        } else if (progressValue >= 50) {
+            tintColor = ContextCompat.getColor(holder.itemView.getContext(), R.color.coral_400);
+        } else {
+            tintColor = ContextCompat.getColor(holder.itemView.getContext(), R.color.purple_500);
+        }
+        ImageViewCompat.setImageTintList(holder.ivStatus, ColorStateList.valueOf(tintColor));
 
         // Load student avatar with Glide (if imageUrl exists)
         if (student.getImageUrl() != null && !student.getImageUrl().isEmpty()) {
@@ -61,18 +78,20 @@ public class StudentAdapter extends RecyclerView.Adapter<StudentAdapter.StudentV
     }
 
     static class StudentViewHolder extends RecyclerView.ViewHolder {
-        TextView tvName, tvInstitution;
-        ProgressBar progressBar;
+        TextView tvName, tvInstitution, tvProgressLabel;
+        LinearProgressIndicator progressIndicator;
         Button btnLike;
-        ImageView ivStudentAvatar;
+        ImageView ivStudentAvatar, ivStatus;
 
         public StudentViewHolder(@NonNull View itemView) {
             super(itemView);
             tvName = itemView.findViewById(R.id.tv_student_name);
             tvInstitution = itemView.findViewById(R.id.tv_institution);
-            progressBar = itemView.findViewById(R.id.progress_bar);
+            progressIndicator = itemView.findViewById(R.id.progress_bar);
+            tvProgressLabel = itemView.findViewById(R.id.tv_progress_label);
             btnLike = itemView.findViewById(R.id.btn_like);
             ivStudentAvatar = itemView.findViewById(R.id.iv_student_avatar); // Now resolves
+            ivStatus = itemView.findViewById(R.id.iv_status);
         }
     }
 }

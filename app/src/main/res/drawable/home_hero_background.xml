@@ -5,6 +5,6 @@
         android:startColor="@color/purple_500"
         android:centerColor="@color/mint_400"
         android:endColor="@color/coral_400"
-        android:angle="100" />
-    <corners android:radius="18dp" />
+        android:angle="135" />
+    <corners android:radius="28dp" />
 </shape>
