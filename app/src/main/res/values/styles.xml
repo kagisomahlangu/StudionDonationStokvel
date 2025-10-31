@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Base application theme -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+        <!-- Map existing colors to theme attributes -->
+        <item name="colorPrimary">@color/purple_500</item>        <!-- Primary brand color -->
+        <item name="colorPrimaryDark">@color/purple_700</item>    <!-- Darker variant for status bar -->
+        <item name="colorAccent">@color/teal_200</item>           <!-- Accent color for buttons, etc. -->
+    </style>
+</resources>

@@ -1,0 +1,81 @@
+package com.example.studiondonationstokvel;
+
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.ProgressBar;
+import android.widget.TextView;
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
+import com.bumptech.glide.Glide;
+import java.util.List;
+
+public class StudentAdapter extends RecyclerView.Adapter<StudentAdapter.StudentViewHolder> {
+    private List<Student> students;
+    private OnStudentClickListener listener;
+
+    // Interface for click handling
+    public interface OnStudentClickListener {
+        void onStudentClick(Student student);
+    }
+
+    // Constructor
+    public StudentAdapter(List<Student> students, OnStudentClickListener listener) {
+        this.students = students;
+        this.listener = listener;
+    }
+
+    @NonNull
+    @Override
+    public StudentViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_student, parent, false);
+        return new StudentViewHolder(view);
+    }
+
+    @Override
+    public void onBindViewHolder(@NonNull StudentViewHolder holder, int position) {
+        Student student = students.get(position);
+        holder.tvName.setText(student.getName() + " " + student.getSurname());
+        holder.tvInstitution.setText(student.getInstitution());
+        holder.progressBar.setProgress((int) student.getProgress());
+
+        // Load student avatar with Glide (if imageUrl exists)
+        if (student.getImageUrl() != null && !student.getImageUrl().isEmpty()) {
+            Glide.with(holder.itemView.getContext())
+                    .load(student.getImageUrl())
+                    .placeholder(R.drawable.ic_student)
+                    .error(R.drawable.ic_student)
+                    .into(holder.ivStudentAvatar);
+        } else {
+            holder.ivStudentAvatar.setImageResource(R.drawable.ic_student);
+        }
+
+        // Handle clicks on the "Like" button and entire item
+        holder.btnLike.setOnClickListener(v -> listener.onStudentClick(student));
+        holder.itemView.setOnClickListener(v -> listener.onStudentClick(student));
+    }
+
+    @Override
+    public int getItemCount() {
+        return students.size();
+    }
+
+    // ViewHolder class
+    static class StudentViewHolder extends RecyclerView.ViewHolder {
+        TextView tvName, tvInstitution;
+        ProgressBar progressBar;
+        Button btnLike;
+        ImageView ivStudentAvatar;
+
+        public StudentViewHolder(@NonNull View itemView) {
+            super(itemView);
+            tvName = itemView.findViewById(R.id.tv_student_name);
+            tvInstitution = itemView.findViewById(R.id.tv_institution);
+            progressBar = itemView.findViewById(R.id.progress_bar);
+            btnLike = itemView.findViewById(R.id.btn_like);
+            ivStudentAvatar = itemView.findViewById(R.id.iv_student_avatar);
+        }
+    }
+}

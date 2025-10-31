@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.drawerlayout.widget.DrawerLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/drawer_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true">
+
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/background_gradient">
+
+        <com.google.android.material.appbar.AppBarLayout
+            android:id="@+id/appbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/purple_700"
+            app:elevation="8dp">
+
+            <androidx.appcompat.widget.Toolbar
+                android:id="@+id/toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                android:background="@color/purple_700"
+                app:title="Student Story"
+                app:titleTextColor="@color/white"
+                app:navigationIcon="@drawable/ic_menu"
+                app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
+        </com.google.android.material.appbar.AppBarLayout>
+
+        <androidx.core.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:clipToPadding="false"
+            android:padding="16dp"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="8dp"
+                android:layout_marginTop="16dp"
+                app:cardCornerRadius="16dp"
+                app:cardElevation="6dp"
+                app:cardBackgroundColor="@android:color/white">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="24dp">
+
+                    <!-- Student Image -->
+                    <ImageView
+                        android:id="@+id/iv_student_image"
+                        android:layout_width="120dp"
+                        android:layout_height="120dp"
+                        android:layout_gravity="center"
+                        android:layout_marginBottom="16dp"
+                        android:background="@drawable/circle_background"
+                        android:clipToOutline="true"
+                        android:scaleType="centerCrop"
+                        android:contentDescription="Student image"
+                        app:cardElevation="4dp" />
+
+                    <!-- Student Name and Institution -->
+                    <TextView
+                        android:id="@+id/tv_student_name"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Student Name"
+                        android:textSize="24sp"
+                        android:textStyle="bold"
+                        android:textColor="@color/black"
+                        android:textAlignment="center"
+                        android:layout_marginBottom="4dp" />
+
+                    <TextView
+                        android:id="@+id/tv_institution"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Institution"
+                        android:textSize="16sp"
+                        android:textColor="@color/teal_700"
+                        android:textAlignment="center"
+                        android:layout_marginBottom="16dp" />
+
+                    <!-- Student Number -->
+                    <TextView
+                        android:id="@+id/tv_student_number"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Student Number: 12345"
+                        android:textSize="14sp"
+                        android:textColor="@color/grey_500"
+                        android:textAlignment="center"
+                        android:layout_marginBottom="16dp" />
+
+                    <!-- Story -->
+                    <TextView
+                        android:id="@+id/tv_story"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Student's story here..."
+                        android:textSize="16sp"
+                        android:textColor="@color/black"
+                        android:lineSpacingExtra="4dp"
+                        android:layout_marginBottom="16dp" />
+
+                    <!-- Amount Required -->
+                    <TextView
+                        android:id="@+id/tv_amount_required"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Amount Required: R10,000"
+                        android:textSize="18sp"
+                        android:textStyle="bold"
+                        android:textColor="@color/black"
+                        android:textAlignment="center"
+                        android:layout_marginBottom="24dp" />
+
+                    <!-- Like Button -->
+                    <Button
+                        android:id="@+id/btn_like"
+                        android:layout_width="match_parent"
+                        android:layout_height="56dp"
+                        android:layout_marginBottom="12dp"
+                        android:background="@drawable/button_gradient_rounded"
+                        android:text="Like (+R10 to progress)"
+                        android:textColor="@color/white"
+                        android:textSize="16sp"
+                        android:animation="@anim/button_scale"
+                        android:contentDescription="Like student story" />
+
+                    <!-- Donate Here Button -->
+                    <Button
+                        android:id="@+id/btn_donate"
+                        android:layout_width="match_parent"
+                        android:layout_height="56dp"
+                        android:background="@drawable/button_gradient_rounded"
+                        android:text="Donate Here"
+                        android:textColor="@color/white"
+                        android:textSize="16sp"
+                        android:animation="@anim/button_scale"
+                        android:contentDescription="Donate to student" />
+
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+        </androidx.core.widget.NestedScrollView>
+
+        <!-- Navigation Drawer -->
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+</androidx.drawerlayout.widget.DrawerLayout>
