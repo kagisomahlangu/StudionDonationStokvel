@@ -5,151 +5,171 @@
     android:id="@+id/drawer_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:fitsSystemWindows="true">
+    android:fitsSystemWindows="true"
+    android:background="@color/background_soft">
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@drawable/background_gradient">
+        android:layout_height="match_parent">
 
-        <com.google.android.material.appbar.AppBarLayout
-            android:id="@+id/appbar"
+        <com.google.android.material.appbar.MaterialToolbar
+            android:id="@+id/toolbar"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/purple_700"
-            app:elevation="8dp">
-
-            <androidx.appcompat.widget.Toolbar
-                android:id="@+id/toolbar"
-                android:layout_width="match_parent"
-                android:layout_height="?attr/actionBarSize"
-                android:background="@color/purple_700"
-                app:title="Student Story"
-                app:titleTextColor="@color/white"
-                app:navigationIcon="@drawable/ic_menu"
-                app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
-        </com.google.android.material.appbar.AppBarLayout>
+            android:layout_height="?attr/actionBarSize"
+            android:background="@android:color/transparent"
+            android:elevation="0dp"
+            app:navigationIcon="@drawable/ic_menu"
+            app:navigationIconTint="@color/text_primary"
+            app:title="Student Story"
+            app:titleTextColor="@color/text_primary"
+            app:subtitle="Celebrate progress & make it grow"
+            app:subtitleTextColor="@color/text_secondary" />
 
         <androidx.core.widget.NestedScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:clipToPadding="false"
-            android:padding="16dp"
-            app:layout_behavior="@string/appbar_scrolling_view_behavior">
+            android:paddingStart="24dp"
+            android:paddingEnd="24dp"
+            android:paddingTop="24dp"
+            android:paddingBottom="96dp">
 
-            <androidx.cardview.widget.CardView
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginHorizontal="8dp"
-                android:layout_marginTop="16dp"
-                app:cardCornerRadius="16dp"
-                app:cardElevation="6dp"
-                app:cardBackgroundColor="@android:color/white">
+                android:orientation="vertical">
 
-                <LinearLayout
+                <com.google.android.material.card.MaterialCardView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:padding="24dp">
+                    app:cardCornerRadius="28dp"
+                    app:cardElevation="10dp"
+                    app:strokeColor="@color/purple_200"
+                    app:strokeWidth="1dp">
 
-                    <!-- Student Image -->
-                    <ImageView
-                        android:id="@+id/iv_student_image"
-                        android:layout_width="120dp"
-                        android:layout_height="120dp"
-                        android:layout_gravity="center"
-                        android:layout_marginBottom="16dp"
-                        android:background="@drawable/circle_background"
-                        android:clipToOutline="true"
-                        android:scaleType="centerCrop"
-                        android:contentDescription="Student image"
-                        app:cardElevation="4dp" />
-
-                    <!-- Student Name and Institution -->
-                    <TextView
-                        android:id="@+id/tv_student_name"
+                    <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Student Name"
-                        android:textSize="24sp"
-                        android:textStyle="bold"
-                        android:textColor="@color/black"
-                        android:textAlignment="center"
-                        android:layout_marginBottom="4dp" />
+                        android:orientation="vertical"
+                        android:background="@drawable/leaderboard_background"
+                        android:padding="28dp">
 
-                    <TextView
-                        android:id="@+id/tv_institution"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="Institution"
-                        android:textSize="16sp"
-                        android:textColor="@color/teal_700"
-                        android:textAlignment="center"
-                        android:layout_marginBottom="16dp" />
+                        <ImageView
+                            android:id="@+id/iv_student_image"
+                            android:layout_width="140dp"
+                            android:layout_height="140dp"
+                            android:layout_gravity="center"
+                            android:layout_marginBottom="16dp"
+                            android:background="@drawable/circle_background"
+                            android:clipToOutline="true"
+                            android:contentDescription="Student image"
+                            android:scaleType="centerCrop" />
 
-                    <!-- Student Number -->
-                    <TextView
-                        android:id="@+id/tv_student_number"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="Student Number: 12345"
-                        android:textSize="14sp"
-                        android:textColor="@color/grey_500"
-                        android:textAlignment="center"
-                        android:layout_marginBottom="16dp" />
+                        <TextView
+                            android:id="@+id/tv_student_name"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Student Name"
+                            android:textAlignment="center"
+                            android:textColor="@color/text_on_primary"
+                            android:textSize="22sp"
+                            android:textStyle="bold" />
 
-                    <!-- Story -->
-                    <TextView
-                        android:id="@+id/tv_story"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="Student's story here..."
-                        android:textSize="16sp"
-                        android:textColor="@color/black"
-                        android:lineSpacingExtra="4dp"
-                        android:layout_marginBottom="16dp" />
+                        <TextView
+                            android:id="@+id/tv_institution"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="4dp"
+                            android:text="Institution"
+                            android:textAlignment="center"
+                            android:textColor="@color/text_on_primary"
+                            android:textSize="14sp" />
 
-                    <!-- Amount Required -->
-                    <TextView
-                        android:id="@+id/tv_amount_required"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="Amount Required: R10,000"
-                        android:textSize="18sp"
-                        android:textStyle="bold"
-                        android:textColor="@color/black"
-                        android:textAlignment="center"
-                        android:layout_marginBottom="24dp" />
+                        <TextView
+                            android:id="@+id/tv_student_number"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="12dp"
+                            android:text="Student Number: 12345"
+                            android:textAlignment="center"
+                            android:textColor="@color/text_on_primary"
+                            android:textSize="12sp" />
 
-                    <!-- Like Button -->
-                    <Button
-                        android:id="@+id/btn_like"
-                        android:layout_width="match_parent"
-                        android:layout_height="56dp"
-                        android:layout_marginBottom="12dp"
-                        android:background="@drawable/button_gradient_rounded"
-                        android:text="Like (+R10 to progress)"
-                        android:textColor="@color/white"
-                        android:textSize="16sp"
-                        android:animation="@anim/button_scale"
-                        android:contentDescription="Like student story" />
+                        <com.google.android.material.card.MaterialCardView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="20dp"
+                            app:cardCornerRadius="20dp"
+                            app:cardElevation="0dp"
+                            app:strokeColor="@color/surface_translucent"
+                            app:strokeWidth="1dp">
 
-                    <!-- Donate Here Button -->
-                    <Button
-                        android:id="@+id/btn_donate"
-                        android:layout_width="match_parent"
-                        android:layout_height="56dp"
-                        android:background="@drawable/button_gradient_rounded"
-                        android:text="Donate Here"
-                        android:textColor="@color/white"
-                        android:textSize="16sp"
-                        android:animation="@anim/button_scale"
-                        android:contentDescription="Donate to student" />
+                            <TextView
+                                android:id="@+id/tv_story"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:padding="20dp"
+                                android:text="Student's story here..."
+                                android:textColor="@color/text_primary"
+                                android:textSize="15sp"
+                                android:lineSpacingExtra="4dp" />
+                        </com.google.android.material.card.MaterialCardView>
 
-                </LinearLayout>
-            </androidx.cardview.widget.CardView>
+                        <TextView
+                            android:id="@+id/tv_amount_required"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="24dp"
+                            android:text="Amount Required: R10,000"
+                            android:textAlignment="center"
+                            android:textColor="@color/text_on_primary"
+                            android:textSize="18sp"
+                            android:textStyle="bold" />
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="24dp"
+                            android:orientation="horizontal"
+                            android:gravity="center">
+
+                            <com.google.android.material.button.MaterialButton
+                                android:id="@+id/btn_like"
+                                style="@style/Widget.Material3.Button.FilledTonalButton"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_marginEnd="12dp"
+                                android:layout_weight="1"
+                                android:text="Cheer (+R10)"
+                                android:textAllCaps="false" />
+
+                            <com.google.android.material.button.MaterialButton
+                                android:id="@+id/btn_donate"
+                                style="@style/Widget.Material3.Button.FilledButton"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="12dp"
+                                android:layout_weight="1"
+                                android:text="Donate now"
+                                android:textAllCaps="false" />
+                        </LinearLayout>
+                    </LinearLayout>
+                </com.google.android.material.card.MaterialCardView>
+            </LinearLayout>
         </androidx.core.widget.NestedScrollView>
 
-        <!-- Navigation Drawer -->
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
+
+    <com.google.android.material.navigation.NavigationView
+        android:id="@+id/nav_view"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_gravity="start"
+        android:background="@color/surface_elevated"
+        android:fitsSystemWindows="true"
+        app:headerLayout="@layout/nav_header"
+        app:itemIconTint="@color/nav_item_tint"
+        app:itemTextColor="@color/nav_item_tint"
+        app:menu="@menu/nav_menu" />
+
 </androidx.drawerlayout.widget.DrawerLayout>

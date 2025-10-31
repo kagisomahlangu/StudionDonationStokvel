@@ -1,16 +1,33 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
-    <style name="Theme.StudionDonationStokvel" parent="Theme.MaterialComponents.DayNight.DarkActionBar">
-        <!-- Primary brand color. -->
+    <style name="Theme.StudionDonationStokvel" parent="Theme.Material3.Dark.NoActionBar">
         <item name="colorPrimary">@color/purple_200</item>
-        <item name="colorPrimaryVariant">@color/purple_700</item>
-        <item name="colorOnPrimary">@color/black</item>
-        <!-- Secondary brand color. -->
-        <item name="colorSecondary">@color/teal_200</item>
-        <item name="colorSecondaryVariant">@color/teal_200</item>
-        <item name="colorOnSecondary">@color/black</item>
-        <!-- Status bar color. -->
-        <item name="android:statusBarColor">?attr/colorPrimaryVariant</item>
-        <!-- Customize your theme here. -->
+        <item name="colorOnPrimary">@color/indigo_900</item>
+        <item name="colorPrimaryContainer">@color/indigo_900</item>
+        <item name="colorOnPrimaryContainer">@color/purple_200</item>
+
+        <item name="colorSecondary">@color/amber_400</item>
+        <item name="colorOnSecondary">@color/indigo_900</item>
+        <item name="colorSecondaryContainer">@color/coral_400</item>
+        <item name="colorOnSecondaryContainer">@color/text_on_primary</item>
+
+        <item name="colorTertiary">@color/mint_400</item>
+        <item name="colorOnTertiary">@color/indigo_900</item>
+
+        <item name="colorSurface">#1B1933</item>
+        <item name="colorOnSurface">@color/white</item>
+        <item name="colorSurfaceVariant">#28244A</item>
+        <item name="colorOnSurfaceVariant">@color/grey_500</item>
+        <item name="colorBackground">#121029</item>
+        <item name="android:colorBackground">#121029</item>
+
+        <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="android:navigationBarColor">#121029</item>
+        <item name="android:windowLightStatusBar">false</item>
+        <item name="android:windowLightNavigationBar">false</item>
+
+        <item name="materialCardViewStyle">@style/Widget.StudionDonationStokvel.MaterialCard</item>
+        <item name="floatingActionButtonStyle">@style/Widget.StudionDonationStokvel.Fab</item>
+        <item name="textInputStyle">@style/Widget.StudionDonationStokvel.TextInputLayout</item>
     </style>
 </resources>

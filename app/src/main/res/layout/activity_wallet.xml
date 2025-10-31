@@ -5,92 +5,141 @@
     android:id="@+id/drawer_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:fitsSystemWindows="true">
+    android:fitsSystemWindows="true"
+    android:background="@color/background_soft">
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@drawable/background_gradient">
+        android:layout_height="match_parent">
 
-        <com.google.android.material.appbar.AppBarLayout
-            android:id="@+id/appbar"
+        <com.google.android.material.appbar.MaterialToolbar
+            android:id="@+id/toolbar"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/purple_700"
-            app:elevation="8dp">
-
-            <androidx.appcompat.widget.Toolbar
-                android:id="@+id/toolbar"
-                android:layout_width="match_parent"
-                android:layout_height="?attr/actionBarSize"
-                android:background="@color/purple_700"
-                app:title="Wallet"
-                app:titleTextColor="@color/white"
-                app:navigationIcon="@drawable/ic_menu"
-                app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
-        </com.google.android.material.appbar.AppBarLayout>
+            android:layout_height="?attr/actionBarSize"
+            android:background="@android:color/transparent"
+            android:elevation="0dp"
+            app:navigationIcon="@drawable/ic_menu"
+            app:navigationIconTint="@color/text_primary"
+            app:title="Wallet"
+            app:titleTextColor="@color/text_primary"
+            app:subtitle="Manage your giving"
+            app:subtitleTextColor="@color/text_secondary" />
 
         <androidx.core.widget.NestedScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:clipToPadding="false"
-            android:padding="16dp"
-            app:layout_behavior="@string/appbar_scrolling_view_behavior">
+            android:paddingStart="24dp"
+            android:paddingEnd="24dp"
+            android:paddingTop="24dp"
+            android:paddingBottom="88dp">
 
-            <androidx.cardview.widget.CardView
-                android:id="@+id/card_balance"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginHorizontal="8dp"
-                android:layout_marginTop="16dp"
-                app:cardCornerRadius="16dp"
-                app:cardElevation="6dp"
-                app:cardBackgroundColor="@android:color/white">
+                android:orientation="vertical">
 
-                <LinearLayout
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/card_balance"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:padding="24dp">
+                    app:cardCornerRadius="28dp"
+                    app:cardElevation="10dp"
+                    app:strokeColor="@color/purple_200"
+                    app:strokeWidth="1dp">
 
-                    <!-- Wallet Balance -->
-                    <TextView
-                        android:id="@+id/tv_wallet_balance"
+                    <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="R0.00"
-                        android:textSize="32sp"
-                        android:textStyle="bold"
-                        android:textColor="@color/black"
-                        android:textAlignment="center"
-                        android:layout_marginBottom="16dp" />
+                        android:orientation="vertical"
+                        android:background="@drawable/leaderboard_background"
+                        android:padding="28dp">
 
-                    <TextView
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Current balance"
+                            android:textColor="@color/text_on_primary"
+                            android:textSize="14sp" />
+
+                        <TextView
+                            android:id="@+id/tv_wallet_balance"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="8dp"
+                            android:text="R0.00"
+                            android:textAlignment="center"
+                            android:textColor="@color/text_on_primary"
+                            android:textSize="32sp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="16dp"
+                            android:text="Top up to fuel more student journeys"
+                            android:textAlignment="center"
+                            android:textColor="@color/text_on_primary"
+                            android:textSize="14sp" />
+
+                        <com.google.android.material.button.MaterialButton
+                            android:id="@+id/btn_top_up"
+                            style="@style/Widget.Material3.Button.FilledButton"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="24dp"
+                            android:text="Quick Top Up (Min R10)"
+                            android:textAllCaps="false" />
+                    </LinearLayout>
+                </com.google.android.material.card.MaterialCardView>
+
+                <com.google.android.material.card.MaterialCardView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="24dp"
+                    app:cardCornerRadius="24dp"
+                    app:cardElevation="6dp"
+                    app:strokeColor="@color/grey_300"
+                    app:strokeWidth="1dp">
+
+                    <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Current Balance"
-                        android:textSize="16sp"
-                        android:textColor="@color/grey_500"
-                        android:textAlignment="center"
-                        android:layout_marginBottom="32dp" />
+                        android:orientation="vertical"
+                        android:padding="24dp">
 
-                    <!-- Quick Top Up Button -->
-                    <Button
-                        android:id="@+id/btn_top_up"
-                        android:layout_width="match_parent"
-                        android:layout_height="56dp"
-                        android:background="@drawable/button_gradient_rounded"
-                        android:text="Quick Top Up (Min R10)"
-                        android:textColor="@color/white"
-                        android:textSize="16sp"
-                        android:fontFamily="sans-serif-medium"
-                        android:animation="@anim/button_scale"
-                        android:contentDescription="Top up wallet" />
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Tips"
+                            android:textColor="@color/text_primary"
+                            android:textSize="16sp"
+                            android:textStyle="bold" />
 
-                </LinearLayout>
-            </androidx.cardview.widget.CardView>
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="8dp"
+                            android:text="Each R10 top up lets you cheer a student. Larger top ups multiply your impact."
+                            android:textColor="@color/text_secondary"
+                            android:textSize="14sp" />
+                    </LinearLayout>
+                </com.google.android.material.card.MaterialCardView>
+            </LinearLayout>
         </androidx.core.widget.NestedScrollView>
 
-        <!-- Navigation Drawer -->
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
+
+    <com.google.android.material.navigation.NavigationView
+        android:id="@+id/nav_view"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_gravity="start"
+        android:background="@color/surface_elevated"
+        android:fitsSystemWindows="true"
+        app:headerLayout="@layout/nav_header"
+        app:itemIconTint="@color/nav_item_tint"
+        app:itemTextColor="@color/nav_item_tint"
+        app:menu="@menu/nav_menu" />
+
 </androidx.drawerlayout.widget.DrawerLayout>

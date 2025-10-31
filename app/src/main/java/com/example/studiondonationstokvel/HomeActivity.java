@@ -15,16 +15,20 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.core.widget.NestedScrollView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import com.google.android.material.chip.Chip;
+import com.google.android.material.chip.ChipGroup;
+import com.google.android.material.button.MaterialButton;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.analytics.FirebaseAnalytics;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.Query;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class HomeActivity extends AppCompatActivity {
@@ -35,10 +39,20 @@ public class HomeActivity extends AppCompatActivity {
     private ActionBarDrawerToggle toggle;
     private EditText searchBar;
     private RecyclerView rvStudents;
+    private RecyclerView rvLeaderboard;
     private TextView tvNoStudents;
     private StudentAdapter studentAdapter;
+    private LeaderboardAdapter leaderboardAdapter;
+    private ChipGroup chipGroupFilters;
+    private Chip chipTrending;
+    private Chip chipNew;
+    private Chip chipTopRated;
     private List<Student> studentList;
+    private List<Student> allStudents;
+    private List<Student> leaderboardList;
+    private View leaderboardCard;
     private SharedPreferences sharedPreferences;
+    private String currentSearchQuery = "";
     private static final String PREF_NAME = "LoginPrefs";
     private static final String KEY_REMEMBER_ME = "rememberMe";
 
@@ -65,8 +79,16 @@ public class HomeActivity extends AppCompatActivity {
         NavigationView navigationView = findViewById(R.id.nav_view);
         searchBar = findViewById(R.id.search_bar);
         rvStudents = findViewById(R.id.rv_students);
+        rvLeaderboard = findViewById(R.id.rv_leaderboard);
         tvNoStudents = findViewById(R.id.tv_no_students);
         FloatingActionButton fabRegister = findViewById(R.id.fab_register);
+        MaterialButton btnViewAllLeaderboard = findViewById(R.id.btn_view_all_leaderboard);
+        NestedScrollView homeScroll = findViewById(R.id.home_scroll);
+        leaderboardCard = findViewById(R.id.card_leaderboard);
+        chipGroupFilters = findViewById(R.id.chip_group_filters);
+        chipTrending = findViewById(R.id.chip_trending);
+        chipNew = findViewById(R.id.chip_new);
+        chipTopRated = findViewById(R.id.chip_top_rated);
 
         // Set up Toolbar
         setSupportActionBar(toolbar);
@@ -105,7 +127,10 @@ public class HomeActivity extends AppCompatActivity {
         });
 
         // Set up RecyclerView
+        allStudents = new ArrayList<>();
         studentList = new ArrayList<>();
+        leaderboardList = new ArrayList<>();
+
         studentAdapter = new StudentAdapter(studentList, student -> {
             Intent intent = new Intent(HomeActivity.this, StudentStoryActivity.class);
             intent.putExtra("student_id", student.getUid());
@@ -114,8 +139,17 @@ public class HomeActivity extends AppCompatActivity {
         rvStudents.setLayoutManager(new LinearLayoutManager(this));
         rvStudents.setAdapter(studentAdapter);
 
+        leaderboardAdapter = new LeaderboardAdapter(leaderboardList, student -> {
+            Intent intent = new Intent(HomeActivity.this, StudentStoryActivity.class);
+            intent.putExtra("student_id", student.getUid());
+            startActivity(intent);
+        });
+        LinearLayoutManager leaderboardLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
+        rvLeaderboard.setLayoutManager(leaderboardLayoutManager);
+        rvLeaderboard.setAdapter(leaderboardAdapter);
+
         // Load students with real-time listener
-        loadStudents("");
+        loadStudents();
 
         // Search bar listener
         searchBar.addTextChangedListener(new TextWatcher() {
@@ -125,9 +159,12 @@ public class HomeActivity extends AppCompatActivity {
             public void onTextChanged(CharSequence s, int start, int before, int count) {}
             @Override
             public void afterTextChanged(Editable s) {
-                loadStudents(s.toString().trim());
+                currentSearchQuery = s.toString().trim();
+                applyFilters();
             }
         });
+
+        chipGroupFilters.setOnCheckedChangeListener((group, checkedId) -> applyFilters());
 
         // Floating Action Button for Registration
         fabRegister.setOnClickListener(v -> {
@@ -137,45 +174,89 @@ public class HomeActivity extends AppCompatActivity {
             mFirebaseAnalytics.logEvent("button_click", params);
         });
 
+        btnViewAllLeaderboard.setOnClickListener(v -> {
+            Bundle params = new Bundle();
+            params.putString("cta", "leaderboard_view_all");
+            mFirebaseAnalytics.logEvent("leaderboard_cta", params);
+            homeScroll.post(() -> homeScroll.smoothScrollTo(0, rvStudents.getTop()));
+        });
+
         // Log screen view
         Bundle bundle = new Bundle();
         bundle.putString("screen", "home");
         mFirebaseAnalytics.logEvent("screen_view", bundle);
     }
 
-    private void loadStudents(String query) {
-        Query firestoreQuery = db.collection("students")
+    private void loadStudents() {
+        db.collection("students")
                 .orderBy("name")
-                .limit(20);
-
-        if (!query.isEmpty()) {
-            firestoreQuery = db.collection("students")
-                    .whereGreaterThanOrEqualTo("name", query)
-                    .whereLessThanOrEqualTo("name", query + "\uf8ff")
-                    .orderBy("name")
-                    .limit(20);
-        }
-
-        firestoreQuery.addSnapshotListener((snapshots, e) -> {
+                .limit(50)
+                .addSnapshotListener((snapshots, e) -> {
             if (e != null) {
                 Toast.makeText(this, "Error loading students: " + e.getMessage(), Toast.LENGTH_SHORT).show();
                 return;
             }
-            studentList.clear();
-            if (snapshots.isEmpty()) {
-                tvNoStudents.setVisibility(View.VISIBLE);
-                rvStudents.setVisibility(View.GONE);
-            } else {
-                tvNoStudents.setVisibility(View.GONE);
-                rvStudents.setVisibility(View.VISIBLE);
+            allStudents.clear();
+            if (snapshots != null) {
                 for (DocumentSnapshot doc : snapshots) {
                     Student student = doc.toObject(Student.class);
-                    student.setUid(doc.getId());
-                    studentList.add(student);
+                    if (student != null) {
+                        student.setUid(doc.getId());
+                        allStudents.add(student);
+                    }
                 }
             }
-            studentAdapter.notifyDataSetChanged();
+            applyFilters();
         });
+    }
+
+    private void applyFilters() {
+        List<Student> filtered = new ArrayList<>();
+        for (Student student : allStudents) {
+            String fullName = (student.getName() + " " + student.getSurname()).toLowerCase();
+            if (!currentSearchQuery.isEmpty() && !fullName.contains(currentSearchQuery.toLowerCase())) {
+                continue;
+            }
+            filtered.add(student);
+        }
+
+        Collections.sort(filtered, (a, b) -> a.getName().compareToIgnoreCase(b.getName()));
+
+        int checkedId = chipGroupFilters.getCheckedChipId();
+        if (checkedId == R.id.chip_trending) {
+            Collections.sort(filtered, (a, b) -> Integer.compare(b.getLikes(), a.getLikes()));
+        } else if (checkedId == R.id.chip_new) {
+            Collections.sort(filtered, (a, b) -> b.getUid().compareToIgnoreCase(a.getUid()));
+        } else if (checkedId == R.id.chip_top_rated) {
+            Collections.sort(filtered, (a, b) -> Double.compare(b.getProgress(), a.getProgress()));
+        }
+
+        studentList.clear();
+        studentList.addAll(filtered);
+        studentAdapter.notifyDataSetChanged();
+
+        boolean hasStudents = !studentList.isEmpty();
+        tvNoStudents.setVisibility(hasStudents ? View.GONE : View.VISIBLE);
+        rvStudents.setVisibility(hasStudents ? View.VISIBLE : View.GONE);
+
+        updateLeaderboard();
+    }
+
+    private void updateLeaderboard() {
+        List<Student> sorted = new ArrayList<>(studentList);
+        Collections.sort(sorted, (a, b) -> Double.compare(b.getProgress(), a.getProgress()));
+
+        leaderboardList.clear();
+        int limit = Math.min(5, sorted.size());
+        for (int i = 0; i < limit; i++) {
+            leaderboardList.add(sorted.get(i));
+        }
+        leaderboardAdapter.notifyDataSetChanged();
+        int visibility = leaderboardList.isEmpty() ? View.GONE : View.VISIBLE;
+        rvLeaderboard.setVisibility(visibility);
+        if (leaderboardCard != null) {
+            leaderboardCard.setVisibility(visibility);
+        }
     }
 
     private void checkProfileAccess() {

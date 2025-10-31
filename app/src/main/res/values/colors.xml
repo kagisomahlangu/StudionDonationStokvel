@@ -1,13 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="purple_200">#FFBB86FC</color>
-    <color name="purple_500">#FF6200EE</color>
-    <color name="purple_700">#FF3700B3</color>
-    <color name="teal_200">#FF03DAC5</color>
-    <color name="grey_300">#FFE0E0E0</color>
-    <color name="grey_500">#FF9E9E9E</color>
-    <color name="teal_700">#FF018786</color>
+    <!-- Core brand palette -->
+    <color name="purple_200">#E4D9FF</color>
+    <color name="purple_500">#6C63FF</color>
+    <color name="purple_700">#5246D8</color>
+    <color name="teal_200">#74F1F0</color>
+    <color name="teal_700">#1F9AA7</color>
+
+    <!-- Extended palette for vibrant accents -->
+    <color name="coral_400">#FF7A8A</color>
+    <color name="amber_400">#FFB347</color>
+    <color name="mint_400">#3DDC97</color>
+    <color name="indigo_900">#2C2356</color>
+
+    <!-- Surface & text helpers -->
+    <color name="background_soft">#F3F4FF</color>
+    <color name="surface_elevated">#FFFFFFFF</color>
+    <color name="surface_translucent">#80FFFFFF</color>
+    <color name="text_primary">#1C1B2B</color>
+    <color name="text_secondary">#4C4A64</color>
+    <color name="text_on_primary">#FFFFFFFF</color>
+
+    <!-- Utility colors -->
+    <color name="grey_300">#ECECF6</color>
+    <color name="grey_500">#B6B6CC</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
-    <color name="nav_item_tint">@color/black</color>
+    <color name="nav_item_tint">@color/text_primary</color>
 </resources>
